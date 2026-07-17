@@ -1,4 +1,4 @@
-import {Settings} from "@/features/settings/settings";
+import {Settings} from "@/types/settings";
 import {generateSlug} from "@/lib/slug";
 import {generateUrlEncode} from "@/lib/urlEncode";
 
@@ -11,5 +11,4 @@ export function generateInvitationUrl(
         case "url-encode":
             return settings.baseUrl + generateUrlEncode(recipient);
     }
-    return "/invitation";
 }
