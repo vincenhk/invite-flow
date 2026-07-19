@@ -10,6 +10,7 @@ import {RawExcelGuest} from '@/features/guest/dto/guest-excel.dto'
 import {toGuestFromExcel} from '@/mapper/guest.mapper'
 import GuestImportPanel from "@/features/upload/GuestImportPanel";
 import InvitationSettingPanel from "@/features/invitation/components/InvitationSettingPanel";
+import {defaultInvitationSettings} from "@/features/invitation/invitation.default";
 
 export default function HomePage() {
 
@@ -34,6 +35,7 @@ export default function HomePage() {
     /**** EXCEL HANDLER **********************/
 
     const [excelData, setExcelData] = useState<Guest[]>([]);
+    const [settings, setSettings] = useState(defaultInvitationSettings);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log("HERE COMING");
@@ -102,7 +104,10 @@ export default function HomePage() {
             )}
 
             <GuestImportPanel/>
-            <InvitationSettingPanel/>
+            <InvitationSettingPanel
+                value={settings}
+                onChange={setSettings}
+            />
         </main>
     );
 }
