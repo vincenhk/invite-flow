@@ -4,9 +4,12 @@ import {generateInvitationUrl} from "@/lib/invitation"
 import {Guest} from "@/types/guest";
 import {Settings} from "@/types/settings";
 import {generateSlug} from "@/lib/slug";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {readExcel} from '@/lib/excel'
 import {RawExcelGuest} from '@/features/guest/dto/guest-excel.dto'
+import {toGuestFromExcel} from '@/mapper/guest.mapper'
+import GuestImportPanel from "@/features/upload/GuestImportPanel";
+import InvitationSettingPanel from "@/features/invitation/components/InvitationSettingPanel";
 
 export default function HomePage() {
 
@@ -30,7 +33,7 @@ export default function HomePage() {
 
     /**** EXCEL HANDLER **********************/
 
-    const [excelData, setExcelData] = useState<RawExcelGuest[]>([]);
+    const [excelData, setExcelData] = useState<Guest[]>([]);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log("HERE COMING");
@@ -38,15 +41,24 @@ export default function HomePage() {
         if (!file) return;
 
         try {
-            // 3. Masukkan tipe interface <RawExcelGuest> saat memanggil helper
             const rawData = await readExcel<RawExcelGuest>(file);
+            const mappedGuest = rawData.map(toGuestFromExcel);
 
-            console.log(rawData)
-           setExcelData(rawData);
+            console.log("mappedGuest", mappedGuest);
+            setExcelData(mappedGuest);
+            // console.log("excelData", excelData);
+
         } catch (error) {
             console.error("Gagal memproses file:", error);
         }
     };
+
+
+    useEffect(() => {
+            if (excelData.length > 0) {
+            console.log("State excelData terupdate di render baru:", excelData);
+        }
+    }, [excelData]);
 
     return (
         <main className="p-10 space-y-4">
@@ -76,6 +88,21 @@ export default function HomePage() {
                 />
             </div>
 
+            {excelData.length > 0 && (
+                <div className="mt-4 border rounded-lg p-4 bg-gray-50">
+                    <h4 className="font-semibold mb-2">Daftar Tamu dari Excel ({excelData.length}):</h4>
+                    <ul className="space-y-2 max-h-60 overflow-y-auto">
+                        {excelData.map((g) => (
+                            <li key={g.id} className="text-sm border-b pb-1">
+                                {g.recipient} ({g.phone}) - <span className="text-yellow-600">{g.status}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            <GuestImportPanel/>
+            <InvitationSettingPanel/>
         </main>
     );
 }
