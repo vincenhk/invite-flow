@@ -11,6 +11,8 @@ import {toGuestFromExcel} from '@/mapper/guest.mapper'
 import GuestImportPanel from "@/features/upload/GuestImportPanel";
 import InvitationSettingPanel from "@/features/invitation/components/InvitationSettingPanel";
 import {defaultInvitationSettings} from "@/features/invitation/invitation.default";
+import MessagePanel from "@/features/invitation/components/MessageTemplatePanel";
+import {DEFAULT_MESSAGE} from "@/features/invitation/message-template";
 
 export default function HomePage() {
 
@@ -36,6 +38,7 @@ export default function HomePage() {
 
     const [excelData, setExcelData] = useState<Guest[]>([]);
     const [settings, setSettings] = useState(defaultInvitationSettings);
+    const [messageTemplate, setMessageTemplate] = useState(DEFAULT_MESSAGE);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log("HERE COMING");
@@ -107,6 +110,11 @@ export default function HomePage() {
             <InvitationSettingPanel
                 value={settings}
                 onChange={setSettings}
+            />
+
+            <MessagePanel
+                value={messageTemplate}
+                onChange={setMessageTemplate}
             />
         </main>
     );

@@ -34,18 +34,18 @@ export default function InvitationSettingPanel({value, onChange}: InvitationSett
         }
     ];
 
-    function updateMapping(
-        index: number,
-        mapping: UrlMapping
-    ) {
-        const mappings = [...value.mapping];
-        mappings[index] = updatedMapping;
-
-        onChange({
-            ...value,
-            mapping: mappings
-        });
-    }
+    // function updateMapping(
+    //     index: number,
+    //     mapping: UrlMapping
+    // ) {
+    //     const mappings = [...value.mapping];3
+    //     mappings[index] = updatedMapping;
+    //
+    //     onChange({
+    //         ...value,
+    //         mapping: mappings
+    //     });
+    // }
 
     function createEmptyMapping(): UrlMapping {
         return {
@@ -136,12 +136,12 @@ export default function InvitationSettingPanel({value, onChange}: InvitationSett
                             <TableCell>
                                 <Input
                                     value={mapping.key}
-                                    onChange={(e) =>
-                                        updateMapping(index, {
-                                            ...mapping,
-                                            key: e.target.value
-                                        })
-                                    }
+                                    // onChange={(e) =>
+                                    //     updateMapping(index, {
+                                    //         ...mapping,
+                                    //         key: e.target.value
+                                    //     })
+                                    // }
                                 />
                             </TableCell>
                             <TableCell>
